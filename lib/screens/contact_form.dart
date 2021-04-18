@@ -51,7 +51,7 @@ class _ContactFormState extends State<ContactForm> {
                   onPressed: (){
                     final String nome = _controllerNome.text;
                     final int conta = int.parse(_controllerConta.text);
-                    Contact contato = Contact(nome, conta);
+                    Contact contato = Contact(0,nome, conta);
                     Navigator.pop(context, contato);
 
                   },
