@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_files/database/app_database.dart';
+import 'package:flutter_files/database/Dao/contact_dao.dart';
 import 'package:flutter_files/models/contact.dart';
 
 import 'contact_form.dart';
@@ -10,6 +10,8 @@ class ContactsList extends StatefulWidget {
 }
 
 class _ContactsListState extends State<ContactsList> {
+
+  final ContactDAO _dao = ContactDAO();
   @override
   Widget build(BuildContext context) {
     //contacts.add(Contact(0,'Teste',1234)); //teste de inserção na lista
@@ -19,7 +21,7 @@ class _ContactsListState extends State<ContactsList> {
       ),
       body: FutureBuilder<List<Contact>>(
           initialData: [], //criando lista vazia como dado inicial
-          future: findAll(),
+          future: _dao.findAll(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
