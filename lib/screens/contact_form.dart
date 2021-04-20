@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_files/database/app_database.dart';
 import 'package:flutter_files/models/contact.dart';
 
 class ContactForm extends StatefulWidget {
@@ -23,9 +24,7 @@ class _ContactFormState extends State<ContactForm> {
           children: [
             TextField(
               controller: _controllerNome,
-              decoration: InputDecoration(
-                labelText: 'Full name'
-              ),
+              decoration: InputDecoration(labelText: 'Full name'),
               style: TextStyle(
                 fontSize: 24,
               ),
@@ -34,9 +33,7 @@ class _ContactFormState extends State<ContactForm> {
               padding: const EdgeInsets.only(top: 8),
               child: TextField(
                 controller: _controllerConta,
-                decoration: InputDecoration(
-                  labelText: 'Account number'
-                ),
+                decoration: InputDecoration(labelText: 'Account number'),
                 style: TextStyle(
                   fontSize: 24,
                 ),
@@ -44,16 +41,15 @@ class _ContactFormState extends State<ContactForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top:16.0),
+              padding: const EdgeInsets.only(top: 16.0),
               child: SizedBox(
                 width: double.maxFinite,
                 child: ElevatedButton(
-                  onPressed: (){
+                  onPressed: () {
                     final String nome = _controllerNome.text;
-                    final int conta = int.parse(_controllerConta.text);
-                    Contact contato = Contact(0,nome, conta);
-                    Navigator.pop(context, contato);
-
+                    final int conta = int.tryParse(_controllerConta.text);
+                    Contact contato = Contact(0, nome, conta);
+                    save(contato).then((id) => Navigator.pop(context));
                   },
                   child: Text('Create'),
                 ),

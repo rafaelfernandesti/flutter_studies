@@ -6,12 +6,17 @@ Future<Database> createDatabase() {
   //o then é necessário para tratar o Future
   return getDatabasesPath().then((dbPath) {
     final String path = join(dbPath, 'bytebank.db');
-    return openDatabase(path, onCreate: (db, version) {
-      db.execute('CREATE TABLE tb_contacts('
-          'id INTEGER PRIMARY KEY, '
-          'name TEXT, '
-          'account_number INTEGER)');
-    }, version: 1);
+    return openDatabase(
+      path,
+      onCreate: (db, version) {
+        db.execute('CREATE TABLE tb_contacts('
+            'id INTEGER PRIMARY KEY, '
+            'name TEXT, '
+            'account_number INTEGER)');
+      },
+      version: 1,
+      //onDowngrade: onDatabaseDowngradeDelete, //código usado para apagar o BD após realizar downgrade
+    );
   });
 }
 
@@ -19,7 +24,7 @@ Future<int> save(Contact contact) {
   return createDatabase().then((db) {
     Map();
     final Map<String, dynamic> contactMap = Map();
-    contactMap['id'] = contact.id;
+    //contactMap['id'] = contact.id; linha não utilizada para geração automática de ID
     contactMap['name'] = contact.nome;
     contactMap['account_number'] = contact.conta;
     return db.insert('tb_contacts', contactMap);

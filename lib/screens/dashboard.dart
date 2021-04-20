@@ -23,7 +23,6 @@ class Dashboard extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 child: InkWell(
                   onTap: () {
-                    print('Teste');
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: mostrarLista,));
                   },
