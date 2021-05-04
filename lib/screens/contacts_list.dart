@@ -17,7 +17,7 @@ class _ContactsListState extends State<ContactsList> {
     //contacts.add(Contact(0,'Teste',1234)); //teste de inserção na lista
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contacts'),
+        title: Text('Transfer'),
       ),
       body: FutureBuilder<List<Contact>>(
           initialData: [], //criando lista vazia como dado inicial
