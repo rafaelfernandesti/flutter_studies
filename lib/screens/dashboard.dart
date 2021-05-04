@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_files/screens/contacts_list.dart';
+import 'package:flutter_files/screens/transaction_list.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -17,17 +18,27 @@ class Dashboard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Image.asset('images/bytebank_logo.png'),
             ),
-            Wrap(
-              children: [
-                _FeatureItem(
-                  nome:'Transfer',
-                  icone:Icons.monetization_on,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child:
+                Row(
+                  children: [
+                    _FeatureItem(
+                      nome:'Transfer',
+                      icone:Icons.monetization_on,
+                      onClique: ()=> _showContactsList(context),
+                    ),
+                    _FeatureItem(
+                      nome:'Transaction Feed',
+                      icone:Icons.description,
+                      onClique: ()=> _showTransactionsList(context),
+                    ),_FeatureItem(
+                      nome:'Who are we?',
+                      icone:Icons.account_tree,
+                      onClique: ()=> print('Who are we?'),
+                    ),
+                  ],
                 ),
-                _FeatureItem(
-                  nome:'Transaction Feed',
-                  icone:Icons.description,
-                ),
-              ],
             ),
           ],
         ),
@@ -38,14 +49,32 @@ class Dashboard extends StatelessWidget {
   Widget mostrarLista(BuildContext context) {
     return ContactsList();
   }
+
+  void _showContactsList(BuildContext context){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => ContactsList(),
+      ),
+    );
+  }
+
+  _showTransactionsList(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TransactionsList(),
+      ),
+    );
+
+  }
 }
 
 class _FeatureItem extends StatelessWidget {
 
   final String nome;
   final IconData icone;
+  final Function onClique; //callback
 
-  _FeatureItem({this.nome, this.icone});
+  _FeatureItem({this.nome, this.icone, @required this.onClique});
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +83,7 @@ class _FeatureItem extends StatelessWidget {
       child: Material(
         color: Theme.of(context).primaryColor,
         child: InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ContactsList(),
-                ),
-            );
-          },
+          onTap: () => onClique(),
           child: Container(
             padding: EdgeInsets.all(8),
             height: 100,
