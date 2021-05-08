@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_files/database/Dao/contact_dao.dart';
 import 'package:flutter_files/models/contact.dart';
+import 'package:flutter_files/screens/transaction_form.dart';
 
 import 'contact_form.dart';
 
@@ -17,7 +18,7 @@ class _ContactsListState extends State<ContactsList> {
     //contacts.add(Contact(0,'Teste',1234)); //teste de inserção na lista
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transfer'),
+        title: Text('Transferir'),
       ),
       body: FutureBuilder<List<Contact>>(
           initialData: [], //criando lista vazia como dado inicial
@@ -38,7 +39,14 @@ class _ContactsListState extends State<ContactsList> {
                 return ListView.builder(
                   itemBuilder: (context, index) {
                     final Contact contact = contacts[index];
-                    return _ContactItem(contact);
+                    return _ContactItem(contact, onClique: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context)=>TransactionForm(contact)
+                        )
+                      );
+                    },
+                    );
                   },
                   itemCount: contacts.length,
                 );
@@ -58,13 +66,17 @@ class _ContactsListState extends State<ContactsList> {
 
 class _ContactItem extends StatelessWidget {
   final Contact contact;
+  final Function onClique;
 
-  _ContactItem(this.contact);
+  _ContactItem(this.contact, {@required this.onClique});
+
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        onTap: () => onClique(), //funciona só com onClique()? sem o arrow?
+                                // Resposta: não. sem a lambda a função é chamada imediatamente.
         title: Text(
           contact.nome,
           style: TextStyle(
