@@ -18,8 +18,7 @@ class TransactionWebClient{
   }
 
   Future<Transaction> save(Transaction transaction) async {
-    Map<String, dynamic> transactionMap = _toMap(transaction);
-    final String transactionJson= jsonEncode(transactionMap);
+    final String transactionJson= jsonEncode(transaction.toJson());
     final Response resposta = await cliente.post(uri,headers: {
       'Content-type' : 'application/json',
       'password' : '1000',
@@ -32,32 +31,14 @@ class TransactionWebClient{
     print(decodedJson);
     List<Transaction> transactions = [];
     for(Map<String,dynamic> transactionJson in decodedJson){
-      Map<String,dynamic> contactJson = transactionJson['contact'];
-      Transaction transaction = Transaction(
-          transactionJson['value'],
-          Contact(
-            0,
-            contactJson['name'],
-            contactJson['accountNumber'],
-          )
-      );
-      transactions.add(transaction);
+      transactions.add(Transaction.fromJson(transactionJson));
     }
     return transactions;
   }
 
   Transaction _toTransaction(Response resposta) {
     Map<String,dynamic> json = jsonDecode(resposta.body);
-
-    Map<String,dynamic> contactJson = json['contact'];
-    return Transaction(
-        json['value'],
-        Contact(
-          0,
-          contactJson['name'],
-          contactJson['accountNumber'],
-        )
-    );
+    return Transaction.fromJson(json);
   }
 
   Map<String, dynamic> _toMap(Transaction transaction) {
