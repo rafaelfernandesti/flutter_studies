@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_files/http/webclients/transaction_webclient.dart';
 import 'package:flutter_files/models/contact.dart';
 import 'package:flutter_files/models/transaction.dart';
-import 'package:flutter_files/webapi/webclient.dart';
 
 class TransactionForm extends StatefulWidget {
   final Contact contact;
@@ -14,7 +14,7 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final TextEditingController _valueController = TextEditingController();
-
+  final TransactionWebClient _webClient = TransactionWebClient();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,7 @@ class _TransactionFormState extends State<TransactionForm> {
                     child: Text('Transfer'), onPressed: () {
                       final double value = double.tryParse(_valueController.text);
                       final transactionCreated = Transaction(value, widget.contact);
-                      save(transactionCreated).then((valueTransaction)
+                      _webClient.save(transactionCreated).then((valueTransaction)
                         => valueTransaction != null ? Navigator.pop(context) : print('Transação não executada.'));
                       //o then que indica se foi executado
                   },
