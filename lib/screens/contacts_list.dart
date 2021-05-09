@@ -78,13 +78,13 @@ class _ContactItem extends StatelessWidget {
         onTap: () => onClique(), //funciona só com onClique()? sem o arrow?
                                 // Resposta: não. sem a lambda a função é chamada imediatamente.
         title: Text(
-          contact.nome,
+          contact.name,
           style: TextStyle(
             fontSize: 24,
           ),
         ),
         subtitle: Text(
-          contact.conta.toString(),
+          contact.accountNumber.toString(),
           style: TextStyle(
             fontSize: 16,
           ),

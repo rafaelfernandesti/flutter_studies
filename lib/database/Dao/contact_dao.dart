@@ -23,8 +23,8 @@ class ContactDAO {
   Map<String, dynamic> _toMap(Contact contact) {
     final Map<String, dynamic> contactMap = Map();
     //contactMap['id'] = contact.id; linha não utilizada para geração automática de ID
-    contactMap[_name] = contact.nome;
-    contactMap[_accountNumber] = contact.conta;
+    contactMap[_name] = contact.name;
+    contactMap[_accountNumber] = contact.accountNumber;
     return contactMap;
   }
 
